@@ -104,7 +104,9 @@ export const login = async (req, res) => {
     }
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
-      res.status(400).json({ status: false, message: "Invalid Password" });
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid Password" });
     }
 
     generateTokenAndSetCookie(res, user._id);
@@ -156,7 +158,7 @@ export const forgotPassword = async (req, res) => {
       `${process.env.CLIENT_URL}/reset-password/${resetToken}`
     );
 
-    res.status(400).json({
+    res.status(200).json({
       status: true,
       message: "Password reset link sent to your email",
     });
